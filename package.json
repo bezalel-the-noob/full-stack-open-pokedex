@@ -9,7 +9,7 @@
     "test": "jest",
     "eslint": "eslint \"./**/*.{js,jsx}\"",
     "build": "webpack --mode production",
-    "test:e2e": "cypress open"
+    "test:e2e": "cypress run --spec \"cypress/integration/demo/**/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -53,5 +53,11 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0"
+  },
+  "jest": {
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$",
+    "testPathIgnorePatterns": [
+      "./cypress/"
+    ]
   }
 }
