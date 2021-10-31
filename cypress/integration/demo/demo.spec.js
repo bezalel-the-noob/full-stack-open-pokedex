@@ -5,4 +5,16 @@ describe('Pokedex', function() {
     cy.contains('ivysaur')
     cy.contains('Pokémon and Pokémon character names are trademarks of Nintendo.')
   })
+  
+
+  it('pokemon page can be navigated to', function () {
+    cy
+      .get('.list-item')
+      .contains('venusaur')
+      .click();
+    cy.wait(1000);
+    cy
+      .get('.pokemon-name')
+      .contains('venusaur');
+  });
 })
