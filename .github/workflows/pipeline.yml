@@ -31,10 +31,10 @@ jobs:
           command: npm run test:e2e
       - name: Set current_branch variable
         run: echo '::set-output name=CURRENT_BRANCH::${GITHUB_REF##*/}'
+        run: echo '${GITHUB_REF##*/}'
         id: set_current_branch
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.33.0
-        run: echo ${{steps.set_current_branch.outputs.CURRENT_BRANCH}}
         if: ${{ steps.set_current_branch.outputs.CURRENT_BRANCH == 'master' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
