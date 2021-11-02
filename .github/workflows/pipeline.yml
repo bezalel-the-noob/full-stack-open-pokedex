@@ -19,20 +19,22 @@ jobs:
         run: echo '::set-output name=CURRENT_BRANCH::${GITHUB_REF##*/}'
         # run: echo "Deploying to production server on branch $(echo $GITHUB_REF)##*/"
         id: set_current_branch
-      - name: npm install 
-        run: npm install  
-      - name: lint
-        run: npm run eslint
-      - name: build
-        run: npm run build
-      - name: test
-        run: npm run test
-      - name: e2e tests
-        uses: cypress-io/github-action@v2
-        with:
-          start: npm run start-prod
-          wait-on: http://localhost:5000
-          command: npm run test:e2e
+        env:
+          GITHUB_REF: ${{ github.ref }}
+      # - name: npm install 
+      #   run: npm install  
+      # - name: lint
+      #   run: npm run eslint
+      # - name: build
+      #   run: npm run build
+      # - name: test
+      #   run: npm run test
+      # - name: e2e tests
+      #   uses: cypress-io/github-action@v2
+      #   with:
+      #     start: npm run start-prod
+      #     wait-on: http://localhost:5000
+      #     command: npm run test:e2e
       - name: Bump version and push tag
         # uses: anothrNick/github-tag-action@1.33.0
         run: echo 'branch name - ${{ steps.set_current_branch.outputs.CURRENT_BRANCH }}'
@@ -40,13 +42,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-      - name: deploy on heroku
-        if: ${{ github.event_name == 'push' }}
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-          heroku_email: "imran.pavel@gmail.com"
-          healthcheck: "https://${{secrets.HEROKU_APP_NAME}}.herokuapp.com/health"
-          checkstring: "ok"
-          rollbackonhealthcheckfailed: true
+      # - name: deploy on heroku
+      #   if: ${{ github.event_name == 'push' }}
+      #   uses: akhileshns/heroku-deploy@v3.12.12
+      #   with:
+      #     heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+      #     heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+      #     heroku_email: "imran.pavel@gmail.com"
+      #     healthcheck: "https://${{secrets.HEROKU_APP_NAME}}.herokuapp.com/health"
+      #     checkstring: "ok"
+      #     rollbackonhealthcheckfailed: true
