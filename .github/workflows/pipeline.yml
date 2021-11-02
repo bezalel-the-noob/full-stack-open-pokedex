@@ -29,6 +29,15 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
           command: npm run test:e2e
+      - name: Set current_branch variable
+        run: echo '::set-output name=CURRENT_BRANCH::${GITHUB_REF##*/}'
+        id: set_current_branch
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.33.0
+        if: ${{ steps.set_current_branch.outputs.CURRENT_BRANCH == 'master' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
       - name: deploy on heroku
         if: ${{ github.event_name == 'push' }}
         uses: akhileshns/heroku-deploy@v3.12.12
