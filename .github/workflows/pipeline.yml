@@ -15,6 +15,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '14'
+      - name: Set current_branch variable
+        # run: echo '::set-output name=CURRENT_BRANCH::$GITHUB_REF##*/}'
+        run: echo "Deploying to production server on branch $GITHUB_REF"
+        id: set_current_branch
       - name: npm install 
         run: npm install  
       - name: lint
@@ -29,9 +33,6 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
           command: npm run test:e2e
-      - name: Set current_branch variable
-        run: echo '::set-output name=CURRENT_BRANCH::$GITHUB_REF'
-        id: set_current_branch
       - name: Bump version and push tag
         # uses: anothrNick/github-tag-action@1.33.0
         run: echo '${{ steps.set_current_branch.outputs.CURRENT_BRANCH }}'
