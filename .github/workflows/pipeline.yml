@@ -18,8 +18,8 @@ jobs:
       - name: Set current_branch variable
         # run: echo '::set-output name=CURRENT_BRANCH::${GITHUB_REF##*/}'
         # run: echo "Deploying to production server on branch $(echo $GITHUB_REF)##*/"
-        # run: echo ${GITHUB_REF##*/}
-        run: echo '::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})'
+        run: echo ${GITHUB_REF##*/}
+        # run: echo '::set-output name=CURRENT_BRANCH::$(echo ${GITHUB_REF##*/})'
         id: set_current_branch
         env:
           GITHUB_REF: ${{ github.ref }}
