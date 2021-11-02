@@ -34,6 +34,7 @@ jobs:
         id: set_current_branch
       - name: Bump version and push tag
         uses: anothrNick/github-tag-action@1.33.0
+        run: echo ${{steps.set_current_branch.outputs.CURRENT_BRANCH}}
         if: ${{ steps.set_current_branch.outputs.CURRENT_BRANCH == 'master' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
