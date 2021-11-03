@@ -5,6 +5,7 @@ on:
     branches:
       - master
 
+
 jobs:
   a_test_job:
     runs-on: ubuntu-18.04
