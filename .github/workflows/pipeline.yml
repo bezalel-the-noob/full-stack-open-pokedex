@@ -43,6 +43,7 @@ jobs:
       - name: deploy on heroku
         if: ${{ github.event_name == 'push' && contains(toJson(github.event.commits[0].message), '#skip') != true }}
         uses: akhileshns/heroku-deploy@v3.12.12
+        id: deploy
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
@@ -50,3 +51,13 @@ jobs:
           healthcheck: "https://${{secrets.HEROKU_APP_NAME}}.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
+      - name: Notify deployment success or pipeline failure
+        uses: 8398a7/action-slack@c84a35cfa82a01f3733a3cbf5d5260123e55c2f9
+        if: ${{ steps.deploy.outcome == 'success' || job.status == 'failure' }}
+        with:
+          status: ${{ job.status }}
+          fields: repo,commit,message,author,took,job
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      
+        
