@@ -1,0 +1,14 @@
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  periodic_health_check:
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@9f9a163f533fcbf8b3d9fe1bf5458e8c23502698
+        with:
+          url: https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com/health
+
