@@ -22,5 +22,5 @@ jobs:
       - name: commit messages
         env:
           # COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-          MESSAGE: ${{ toJson(github.event.commits[0].message) }}
+          MESSAGE: ${{ toJson(github.event.commits[0].message).contains('#skip') }}
         run: echo "$MESSAGE"
