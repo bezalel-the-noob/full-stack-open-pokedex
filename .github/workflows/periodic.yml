@@ -1,6 +1,5 @@
 on:
   schedule:
-    # - cron: '30/10 * * * *'
     - cron: '0 1 1 1 1'
 
 jobs:
